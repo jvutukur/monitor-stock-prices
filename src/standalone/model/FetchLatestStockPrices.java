@@ -16,6 +16,7 @@ public class FetchLatestStockPrices extends TimerTask{
 		
 
 	
+	
 	public BigDecimal getStockPrice(String companyName){
 		
 		//http://maven-repository.com/artifact/com.yahoofinance-api/YahooFinanceAPI/1.3.0
@@ -32,8 +33,9 @@ public class FetchLatestStockPrices extends TimerTask{
 		  	System.out.println(e.getMessage());			
 		}
 		finally{
-			return price;	
-		}			
+				
+		}	
+		return price;
 	}
 	
 	public boolean addSingleStockToDB(String company_code, Timestamp timeStamp, BigDecimal stockPrice){			
@@ -73,9 +75,10 @@ public class FetchLatestStockPrices extends TimerTask{
 			System.out.println(e.getMessage());
 		}
 		finally{
-			return companiesList;
+			
 		}
-				
+			
+		return companiesList;
 	}
 	
 	public boolean addStocksToDB(){

@@ -1,8 +1,8 @@
 build/
 .settings
-.project
 .classpath
 target/*
 
 *.docx
 target/
+/target/
