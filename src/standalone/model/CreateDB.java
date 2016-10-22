@@ -18,6 +18,7 @@ public class CreateDB {
 			String schema = "CREATE DATABASE IF NOT exists stocks";
 			PreparedStatement preparedStatement = con.prepareStatement(schema);
 			preparedStatement.execute();
+			System.out.println("data base schema created");
 			
 			String companiesTable = "CREATE TABLE  IF NOT exists `stocks`.`companies` (`company_code` VARCHAR(15) NOT NULL,`company_name` VARCHAR(100) NOT NULL,PRIMARY KEY (`company_code`));";
 			preparedStatement = con
@@ -29,6 +30,24 @@ public class CreateDB {
 					+ "CONSTRAINT `company_code`FOREIGN KEY (`company_code`)REFERENCES `stocks`.`companies` (`company_code`)ON DELETE CASCADE ON UPDATE NO ACTION);";
 			preparedStatement = con.prepareStatement(stocksTable);
 			preparedStatement.execute();
+			
+			System.out.println("data base tables created");
+			
+			String dummyData = "INSERT INTO `stocks`.`companies` (`company_code`, `company_name`) "
+					+ "VALUES"
+					+ " ('INTL', 'Intel Corporation');";
+			preparedStatement = con.prepareStatement(dummyData);
+			preparedStatement.executeUpdate();
+			
+			System.out.println("added dummy data to DB");
+					
+					/*
+					 * Intel Corporation, INTC
+					 *  ,TSLA
+					 *  ,GOOG
+					 *  ,YHOO 
+					 * 
+					 */
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
