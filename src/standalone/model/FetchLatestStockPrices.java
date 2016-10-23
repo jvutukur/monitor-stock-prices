@@ -8,9 +8,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.TimerTask;
 
+import dao.Company;
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
-import standalone.dao.Company;
 
 public class FetchLatestStockPrices extends TimerTask{
 		
@@ -24,10 +24,8 @@ public class FetchLatestStockPrices extends TimerTask{
 		BigDecimal price = null;
 		try{			
 			Stock stock = YahooFinance.get(companyName);
-			price = stock.getQuote().getPrice();
-			String companyFullName = stock.getName();
-			System.out.println(companyFullName);
-			System.out.println(price.toPlainString());			
+			price = stock.getQuote().getPrice();						
+			System.out.println(stock.getName()+" : "+price.toPlainString());			
 		}
 		catch(Exception e){
 		  	System.out.println(e.getMessage());			
@@ -38,12 +36,25 @@ public class FetchLatestStockPrices extends TimerTask{
 		return price;
 	}
 	
+	public String getCompanyName(String company_code){
+		String companyName = "";
+		try{
+			Stock stock = YahooFinance.get(company_code);
+			companyName = stock.getName();
+		}
+		catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+		
+		return companyName;
+	}
+	
 	public boolean addSingleStockToDB(String company_code, Timestamp timeStamp, BigDecimal stockPrice){			
 		Connection con = mySqlConnection.getConnection();
 		try{
 			String query ="INSERT INTO `stocks`.`stock_values` (`company_code`, `time_stamp`, `value`) VALUES (?, ?, ?)";
 			PreparedStatement pstmt = con.prepareStatement(query);
-			pstmt.setString(1, company_code);
+			pstmt.setString(1, company_code.toUpperCase());
 			pstmt.setTimestamp(2, timeStamp);
 			pstmt.setBigDecimal(3,stockPrice);
 			pstmt.executeUpdate();
@@ -88,8 +99,7 @@ public class FetchLatestStockPrices extends TimerTask{
 		for(Company currentCompany : companiesList){
 		 BigDecimal stockValue = getStockPrice(currentCompany.getCompanyCode());
 		 Timestamp timeStamp = new java.sql.Timestamp(new java.util.Date().getTime());
-		 addSingleStockToDB(currentCompany.getCompanyCode(),timeStamp,stockValue);
-		 
+		 addSingleStockToDB(currentCompany.getCompanyCode(),timeStamp,stockValue);		 
 		}
 				
 		return true;

@@ -1,17 +1,19 @@
 package standalone.model;
 
+
 import static org.junit.Assert.*;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import standalone.dao.Company;
+import dao.Company;
+import standalone.model.FetchLatestStockPrices;
 
 import java.util.ArrayList;
 
 import junit.framework.Assert;
 
-public class FetchLatestStockPricesTest {
+public class FetchLatestStockPricesTest{
 
 	 private static FetchLatestStockPrices ftsp;
 	

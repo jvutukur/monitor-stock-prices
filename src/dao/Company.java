@@ -1,4 +1,4 @@
-package standalone.dao;
+package dao;
 
 	public class Company {
 		private String companyCode;
