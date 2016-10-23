@@ -3,11 +3,11 @@ package standalone.model;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-public class MySqlConnection {
+public class mySqlConnection {
 
 	private static Connection conn = null;
 	
-	protected MySqlConnection(){
+	protected mySqlConnection(){
 		
 	}
 	

@@ -48,7 +48,7 @@ public class FetchLatestStockPrices extends TimerTask{
 	
 	public boolean addSingleStockToDB(String company_code, Timestamp timeStamp, BigDecimal stockPrice){			
 		boolean successMessage = false;
-		Connection con = MySqlConnection.getConnection();
+		Connection con = mySqlConnection.getConnection();
 		try{
 			String query ="INSERT INTO `stocks`.`stock_values` (`company_code`, `time_stamp`, `value`) VALUES (?, ?, ?)";
 			PreparedStatement pstmt = con.prepareStatement(query);
@@ -72,7 +72,7 @@ public class FetchLatestStockPrices extends TimerTask{
 	public ArrayList<Company> getCompaniesList(){
 		ArrayList<Company> companiesList = new ArrayList<Company>();
 		try{
-			Connection con = MySqlConnection.getConnection();
+			Connection con = mySqlConnection.getConnection();
 			String query = "Select * from stocks.companies";
 			PreparedStatement pstmt = con.prepareStatement(query);
 			ResultSet rs = pstmt.executeQuery();

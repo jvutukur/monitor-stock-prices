@@ -14,7 +14,7 @@ public class MySqlConnectionTest {
 
 	@Test
 	public void testGetConnection() {
-		Connection con = MySqlConnection.getConnection();
+		Connection con = mySqlConnection.getConnection();
 		Assert.assertNotNull(con);
 	}
 

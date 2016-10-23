@@ -10,7 +10,9 @@ import java.util.List;
 import dao.Company;
 import dao.StockValue;
 import standalone.model.FetchLatestStockPrices;
-import standalone.model.MySqlConnection;
+import standalone.model.mySqlConnection;
+
+import org.apache.log4j.Logger;
 
 public class CrudServices {
 
@@ -22,7 +24,7 @@ public class CrudServices {
 			message = "No such company exist";
 		} else {
 			try {
-				Connection con = MySqlConnection.getConnection();
+				Connection con = mySqlConnection.getConnection();
 				String query = "DELETE FROM `stocks`.`companies` WHERE `company_code`=?";
 				PreparedStatement pstmt = con.prepareStatement(query);
 				pstmt.setString(1, company_code);
@@ -44,7 +46,7 @@ public class CrudServices {
 			message = "No such company exist";
 		} else {
 			try {
-				Connection con = MySqlConnection.getConnection();
+				Connection con = mySqlConnection.getConnection();
 				String query = "SELECT `company_name` FROM `stocks`.`companies` where `company_code` = ?";
 				PreparedStatement pstmt = con.prepareStatement(query);
 				pstmt.setString(1, company_code.toUpperCase());
@@ -73,11 +75,13 @@ public class CrudServices {
 		ArrayList<Company> companyList = flsp.getCompaniesList();
 		return companyList;
 	}
+	
+	
 
 	public ArrayList<StockValue> getComanyHistorty(String company_code) {
 		ArrayList<StockValue> stocksHistory = new ArrayList<StockValue>();
 		try {
-			Connection con = MySqlConnection.getConnection();
+			Connection con = mySqlConnection.getConnection();
 			String query = "SELECT `time_stamp`, `value` FROM `stocks`.`stock_values`"
 					+ "where `company_code` =?";
 			PreparedStatement pstmt = con.prepareStatement(query);

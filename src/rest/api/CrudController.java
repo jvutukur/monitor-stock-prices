@@ -18,10 +18,6 @@ import dao.Company;
 import dao.CompanyCodes;
 import dao.StockValue;
 
-
-//http://www.java2blog.com/2016/03/restful-web-services-jaxrs-crud-example.html
-
-//url -- http://localhost:8082/MonitorStockPrice/rest/yahoostocks/getCompanies
 @Path("/yahoostocks")
 public class CrudController {
 	
@@ -30,16 +26,34 @@ public class CrudController {
 	 @GET
 	 @Path("/companies_list")	 
 	 @Produces(MediaType.APPLICATION_JSON)  
-	 public List<Company> companies()  
+	 public Response companies()  
 	 {	  
-	  return crudServices.getComaniesList();  
+	  Response response  = null;
+	  List<Company> companyList = crudServices.getComaniesList();
+	  if(companyList.size() > 0 ){
+		  response = Response.status(Response.Status.OK).entity(companyList).build();  
+	  }
+	  else{
+		  response = Response.status(Response.Status.NO_CONTENT).entity(companyList).build();
+	  }
+	  return response;
+	  
 	 }
 	 	 
 	 @GET
 	 @Path("/company_history/{company_code}")
 	 @Produces(MediaType.APPLICATION_JSON)
-	 public ArrayList<StockValue> companyHistory(@PathParam("company_code") String company_code){
-		 return crudServices.getComanyHistorty(company_code);
+	 public Response companyHistory(@PathParam("company_code") String company_code){
+		 ArrayList<StockValue> stockHistory = new ArrayList<StockValue>();
+		 stockHistory= crudServices.getComanyHistorty(company_code);
+		 Response response = null;
+		 if(stockHistory.size()>0){
+			 response = Response.status(Response.Status.OK).entity(stockHistory).build();
+		 }
+		 else{
+			 response = Response.status(Response.Status.NOT_FOUND).entity(stockHistory).build();
+		 }
+		 return response;
 	 }
 	 
 	 @POST
@@ -49,19 +63,33 @@ public class CrudController {
 	 public Response newCompany(CompanyCodes company){
 	        Response response = null;	        
 	        String message = crudServices.addCompany(company.getCompanyCode());
-	        response = Response.status(Response.Status.OK).entity(message).build(); 
+	        if(message.equals("No such company exist")){
+	        	response = Response.status(Response.Status.BAD_REQUEST).entity(message).build();
+	        }
+	        else if(message.contains("already exists in database")){
+	        	response = Response.status(Response.Status.FORBIDDEN).entity(message).build();
+        	}
+	        else{
+	        	response = Response.status(Response.Status.CREATED).entity(message).build();
+	        }	         
 	        return response; 		 
 	 }
 	 
 	 @DELETE
 	 @Path("/delete_company/{company_code}")
-	 public String deleteCompany(@PathParam("company_code") String company_code){
-		 return crudServices.deleteCompany(company_code);
+	 public Response deleteCompany(@PathParam("company_code") String company_code){
+		 String message = crudServices.deleteCompany(company_code);
+		 Response response = null;
+		 if(message.equals("No such company exist")){
+			 response = Response.status(Response.Status.NOT_FOUND).entity(message).build();
+		 }
+		 else{
+			 response = Response.status(Response.Status.OK).entity(message).build();
+		 }
+		 
+		 return response;
 	 }
 	 
-	 //add list of companies
-	 
-	 //delete list of companies
 		 
 		
 }

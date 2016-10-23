@@ -13,7 +13,7 @@ public class CreateDB {
 
 		boolean success = false;
 		try {
-			Connection con = MySqlConnection.getConnection();
+			Connection con = mySqlConnection.getConnection();
 			
 			String schema = "CREATE DATABASE IF NOT exists stocks";
 			PreparedStatement preparedStatement = con.prepareStatement(schema);
@@ -33,11 +33,7 @@ public class CreateDB {
 			
 			System.out.println("data base tables created");
 			
-			String dummyData ="INSERT INTO `stocks`.`companies` (`company_code`, `company_name`)"+ 
-					"SELECT * FROM (SELECT 'INTL', 'Intel Corporation') AS tmp"+
-					"where NOT EXISTS("+
-					"SELECT `company_code` from `stocks`.`companies` WHERE `company_code`='INTL')"+
-                    "LIMIT 1;"; 
+			String dummyData ="INSERT INTO `stocks`.`companies` (`company_code`, `company_name`) SELECT * FROM (SELECT 'INTL', 'INTL FCStone Inc.') AS tmp where NOT EXISTS( SELECT `company_code` from `stocks`.`companies` WHERE `company_code`='INTL') LIMIT 1;"; 
 										
 			preparedStatement = con.prepareStatement(dummyData);
 			preparedStatement.executeUpdate();
@@ -45,7 +41,7 @@ public class CreateDB {
 			System.out.println("added dummy data to DB");
 					
 					/*
-					 * Intel Corporation, INTC
+					 * INTL FCStone Inc., INTL
 					 *  ,TSLA
 					 *  ,GOOG
 					 *  ,YHOO 
