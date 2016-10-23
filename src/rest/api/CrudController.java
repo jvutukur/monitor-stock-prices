@@ -83,8 +83,11 @@ public class CrudController {
 		 if(message.equals("No such company exist")){
 			 response = Response.status(Response.Status.NOT_FOUND).entity(message).build();
 		 }
-		 else{
+		 else if(message.equals("Deleted company successfully")){
 			 response = Response.status(Response.Status.OK).entity(message).build();
+		 }
+		 else{
+			 response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(message).build();
 		 }
 		 
 		 return response;

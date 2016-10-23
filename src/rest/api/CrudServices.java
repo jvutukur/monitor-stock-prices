@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 
 public class CrudServices {
 	
-	static Logger log = Logger.getLogger(CrudServices.class.getName());
+	static Logger log = Logger.getLogger(CrudServices.class);
 
 	public String deleteCompany(String company_code) {
 		String message = "";
@@ -24,6 +24,7 @@ public class CrudServices {
 				.getCompanyName(company_code);
 		if (companyName.equals("") || companyName.equals("N/A")) {
 			message = "No such company exist";
+			log.warn(" User requested for "+company_code+" to delete. But no such company exist" );
 		} else {
 			try {
 				Connection con = mySqlConnection.getConnection();
@@ -32,8 +33,11 @@ public class CrudServices {
 				pstmt.setString(1, company_code);
 				pstmt.execute();
 				message = "Deleted company successfully";
+				log.info("Deleted "+company_code+" successfully" );
 			} catch (Exception e) {
+				message = "Internal Server Error";				
 				System.out.println(e.getMessage());
+				log.error(e.getMessage());
 			}
 
 		}
@@ -46,6 +50,7 @@ public class CrudServices {
 				.getCompanyName(company_code);
 		if (companyName.equals("") || companyName.equals("N/A")) {
 			message = "No such company exist";
+			log.warn(" User requested for "+company_code+" to Add. But no such company exist" );
 		} else {
 			try {
 				Connection con = mySqlConnection.getConnection();
@@ -55,6 +60,7 @@ public class CrudServices {
 				ResultSet rs = pstmt.executeQuery();
 				if (rs.next()) {
 					message = companyName + " already exists in database";
+					log.info("Used requested to add "+company_code+" which is already in Database" );
 				} else {
 					pstmt.close();
 					query = "INSERT INTO `stocks`.`companies` (`company_code`, `company_name`) VALUES (?, ?)";
@@ -63,6 +69,7 @@ public class CrudServices {
 					pstmt.setString(2, companyName);
 					pstmt.executeUpdate();
 					message = companyName + " is successfully regiseterd";
+					log.info(company_code+" is successfully added to database");
 				}
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
@@ -75,8 +82,7 @@ public class CrudServices {
 	public List<Company> getComaniesList() {
 		FetchLatestStockPrices flsp = new FetchLatestStockPrices();
 		ArrayList<Company> companyList = flsp.getCompaniesList();
-		log.debug("Hello this is a debug message");
-		log.info("Hello this is an info message");
+		log.info("user requested for list of comapanies in DB");
 		return companyList;
 	}
 	
@@ -98,8 +104,10 @@ public class CrudServices {
 				stocksHistory.add(oneValue);
 			}
 			Collections.sort(stocksHistory);
+			log.info(company_code+" stocks history sent to user successfully");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 		} finally {
 
 		}
