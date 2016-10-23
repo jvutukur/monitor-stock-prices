@@ -14,8 +14,6 @@ import yahoofinance.YahooFinance;
 
 public class FetchLatestStockPrices extends TimerTask{
 		
-
-	
 	
 	public BigDecimal getStockPrice(String companyName){
 		

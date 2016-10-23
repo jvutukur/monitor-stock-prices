@@ -46,9 +46,9 @@ public class CrudController {
 	 @Path("/new_company/")	 
 	 @Consumes(MediaType.APPLICATION_JSON)
 	 @Produces(MediaType.APPLICATION_JSON)
-	 public Response newCompany(CompanyCodes companies){
+	 public Response newCompany(CompanyCodes company){
 	        Response response = null;	        
-	        String message = crudServices.addCompany(companies.getCompanies().get(0));
+	        String message = crudServices.addCompany(company.getCompanyCode());
 	        response = Response.status(Response.Status.OK).entity(message).build(); 
 	        return response; 		 
 	 }

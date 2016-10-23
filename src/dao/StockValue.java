@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 public class StockValue implements Comparable<StockValue> {
-	private Timestamp timeStamp;
+	
 	
 	@JsonProperty
 	private BigDecimal stockPrice;
@@ -15,9 +15,9 @@ public class StockValue implements Comparable<StockValue> {
 	private String time; 
 	
 	public StockValue(Timestamp timestamp, BigDecimal stockPrice){
-		this.timeStamp = timestamp;
+	
 		this.stockPrice = stockPrice;
-		this.time = this.timeStamp.toString();
+		this.time = timestamp.toString();
 	}
 
 	public String getTime() {
@@ -28,13 +28,7 @@ public class StockValue implements Comparable<StockValue> {
 		this.time = time;
 	}
 
-	public Timestamp getTimeStamp() {
-		return timeStamp;
-	}
-
-	public void setTimeStamp(Timestamp timeStamp) {
-		this.timeStamp = timeStamp;
-	}
+	
 
 	public BigDecimal getStockPrice() {
 		return stockPrice;
@@ -50,10 +44,10 @@ public class StockValue implements Comparable<StockValue> {
 		
 
 		//ascending order
-		if(this.timeStamp.getTime() > secondStock.timeStamp.getTime()){
+		if(Timestamp.valueOf(this.time).getTime() > Timestamp.valueOf(secondStock.time).getTime()){
 			return 1;
 		}
-		else if(this.timeStamp.getTime() < secondStock.timeStamp.getTime()){
+		else if(Timestamp.valueOf(this.time).getTime() < Timestamp.valueOf(secondStock.time).getTime()){
 			return -1;
 		}
 		else{

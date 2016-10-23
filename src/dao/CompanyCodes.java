@@ -2,25 +2,27 @@ package dao;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import java.util.ArrayList;;
+
 
 public class CompanyCodes {
 
 	@JsonProperty
-	private ArrayList<String> companies;
+	private String companyCode;
 
-	public ArrayList<String> getCompanies() {
-		return companies;
+	public String getCompanyCode() {
+		return companyCode;
 	}
 
-	public void setCompanies(ArrayList<String> companies) {
-		this.companies = companies;
+	public void setCompanyCode(String companyCode) {
+		this.companyCode = companyCode;
 	}
 
-	public CompanyCodes(ArrayList<String> companies) {
-		super();
-		this.companies = companies;
+	public CompanyCodes(String companyCode) {		
+		this.companyCode = companyCode;
 	}
 	
+	public CompanyCodes(){
+		
+	}
 	
 }

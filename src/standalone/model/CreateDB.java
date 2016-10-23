@@ -46,7 +46,7 @@ public class CreateDB {
 					 *  ,TSLA
 					 *  ,GOOG
 					 *  ,YHOO 
-					 * 
+					 *  TWTR, Twitter, Inc. Common Stock
 					 */
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

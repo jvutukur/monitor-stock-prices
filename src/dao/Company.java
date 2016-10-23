@@ -9,6 +9,10 @@ package dao;
 			this.companyName = companyName;		
 		}
 
+		public Company(){
+			
+		}
+		
 		public String getCompanyCode() {
 			return companyCode;
 		}
@@ -25,5 +29,6 @@ package dao;
 			this.companyName = companyName;
 		}
 		
+
 		
 	}
