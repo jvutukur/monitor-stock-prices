@@ -39,7 +39,7 @@ public class FetchLatestStockPricesTest{
 	@Test
 	public void testGetCompanyNameSuccessScenario(){
 		String companyName = ftsp.getCompanyName("INTL");
-		Assert.assertEquals( "Intel Corporation",companyName);
+		Assert.assertEquals( "INTL FCStone Inc.",companyName);
 	}
 	
 	@Test
@@ -48,17 +48,31 @@ public class FetchLatestStockPricesTest{
 		Assert.assertEquals("N/A",companyName);
 	}
 	
-	@Test
-	public void testAddSingleStockToDBSuccessScenario(){
-		boolean successMessage = ftsp.addSingleStockToDB("INTL", new Timestamp(2016, 10, 21, 0, 0, 0, 0), new BigDecimal(37.34));
-		Assert.assertEquals(true, successMessage);
-	}
 	
 	@Test
 	public void testAddSingleStockToDBFailScenario(){
 		boolean successMessage  = ftsp.addSingleStockToDB(null, null, null);
 		Assert.assertEquals(false,successMessage);
 	}	
+	
+	@Test
+	public void testAddSingleStockToDBFailScenario_2(){
+		boolean successMessage = ftsp.addSingleStockToDB(null, new Timestamp(2016, 10, 21, 0, 0, 0, 0), new BigDecimal(37.34));
+		Assert.assertEquals(false, successMessage);
+	}
+	
+	@Test
+	public void testAddSingleStockToDBFailScenario_3(){
+		boolean successMessage = ftsp.addSingleStockToDB("INTL", new Timestamp(2016, 10, 21, 0, 0, 0, 0), null);
+		Assert.assertEquals(false, successMessage);
+	}
+
+	@Test
+	public void testAddSingleStockToDBFailScenario_4(){
+		boolean successMessage = ftsp.addSingleStockToDB("INTL", null, new BigDecimal(37.34));
+		Assert.assertEquals(false, successMessage);
+	}
+	
 	
 	@Test
 	public void testGetCompaniesList() {

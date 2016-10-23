@@ -15,6 +15,8 @@ import standalone.model.mySqlConnection;
 import org.apache.log4j.Logger;
 
 public class CrudServices {
+	
+	static Logger log = Logger.getLogger(CrudServices.class.getName());
 
 	public String deleteCompany(String company_code) {
 		String message = "";
@@ -73,6 +75,8 @@ public class CrudServices {
 	public List<Company> getComaniesList() {
 		FetchLatestStockPrices flsp = new FetchLatestStockPrices();
 		ArrayList<Company> companyList = flsp.getCompaniesList();
+		log.debug("Hello this is a debug message");
+		log.info("Hello this is an info message");
 		return companyList;
 	}
 	
