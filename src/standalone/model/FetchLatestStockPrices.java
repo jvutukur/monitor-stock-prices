@@ -42,13 +42,13 @@ public class FetchLatestStockPrices extends TimerTask{
 		}
 		catch(Exception e){
 			System.out.println(e.getMessage());
-		}
-		
+		}		
 		return companyName;
 	}
 	
 	public boolean addSingleStockToDB(String company_code, Timestamp timeStamp, BigDecimal stockPrice){			
-		Connection con = mySqlConnection.getConnection();
+		boolean successMessage = false;
+		Connection con = MySqlConnection.getConnection();
 		try{
 			String query ="INSERT INTO `stocks`.`stock_values` (`company_code`, `time_stamp`, `value`) VALUES (?, ?, ?)";
 			PreparedStatement pstmt = con.prepareStatement(query);
@@ -56,21 +56,23 @@ public class FetchLatestStockPrices extends TimerTask{
 			pstmt.setTimestamp(2, timeStamp);
 			pstmt.setBigDecimal(3,stockPrice);
 			pstmt.executeUpdate();
+			successMessage = true;
 		}
 		catch(Exception e){
-			
+			successMessage = false;
+			System.out.println(e.getMessage());		
 		}
 		finally{
 			
 		}
 		
-		return true;
+		return successMessage;
 	}
 	
 	public ArrayList<Company> getCompaniesList(){
 		ArrayList<Company> companiesList = new ArrayList<Company>();
 		try{
-			Connection con = mySqlConnection.getConnection();
+			Connection con = MySqlConnection.getConnection();
 			String query = "Select * from stocks.companies";
 			PreparedStatement pstmt = con.prepareStatement(query);
 			ResultSet rs = pstmt.executeQuery();
@@ -92,15 +94,17 @@ public class FetchLatestStockPrices extends TimerTask{
 	
 	public boolean addStocksToDB(){
 		
+		boolean successMessage = true;
 		ArrayList<Company> companiesList = getCompaniesList();
 		
 		for(Company currentCompany : companiesList){
 		 BigDecimal stockValue = getStockPrice(currentCompany.getCompanyCode());
 		 Timestamp timeStamp = new java.sql.Timestamp(new java.util.Date().getTime());
-		 addSingleStockToDB(currentCompany.getCompanyCode(),timeStamp,stockValue);		 
+		 boolean message = addSingleStockToDB(currentCompany.getCompanyCode(),timeStamp,stockValue);
+		 successMessage = successMessage & message;
 		}
 				
-		return true;
+		return successMessage;
 	}
 	
 	public void run(){

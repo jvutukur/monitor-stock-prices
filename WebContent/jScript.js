@@ -142,8 +142,7 @@ var reloadGraph = function(){
                     .duration(200)
                     .style("opacity", 0);
             })
-					
-		
+							
 	}
 	else{
 		alert("invalid company name");
