@@ -7,6 +7,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 public class StockValue implements Comparable<StockValue> {
 	
+	private Timestamp timestamp;
 	
 	@JsonProperty
 	private BigDecimal stockPrice;
@@ -18,6 +19,16 @@ public class StockValue implements Comparable<StockValue> {
 	
 		this.stockPrice = stockPrice;
 		this.time = timestamp.toString();
+		this.time = this.time.substring(0,this.time.length()-2);
+		this.timestamp = timestamp;
+	}
+
+	public Timestamp getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	public String getTime() {

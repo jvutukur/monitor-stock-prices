@@ -22,7 +22,7 @@ public class FetchLatestStockPrices extends TimerTask{
 		BigDecimal price = null;
 		try{			
 			Stock stock = YahooFinance.get(companyName);
-			price = stock.getQuote().getPrice();						
+			price = stock.getQuote(true).getPrice();						
 			System.out.println(stock.getName()+" : "+price.toPlainString());			
 		}
 		catch(Exception e){

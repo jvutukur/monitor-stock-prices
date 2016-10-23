@@ -2,10 +2,50 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<script> </script>
-<script> </script>
+	    
+    <script type="text/javascript" src="https://ajax.microsoft.com/ajax/jQuery/jquery-1.4.2.min.js"></script>
+    <script src="//d3js.org/d3.v3.min.js"></script>
+    <script src="jScript.js"></script>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+    
+<style>
+line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
+
+.mouseOverContent {
+            position: absolute;
+            width: 120px;
+            background: #bdd4f9;
+            padding: 4px;
+            pointer-events: none;
+            text-align: center;
+            font: 10px sans-serif;
+            height: 45px;
+            border-radius: 4px;
+            border: 0px;
+        }
+
+.area {
+  fill: steelblue;
+}
+
+</style>     
 </head>
 <body>
- <p> hello <p>
+ 
+ 	<input type="text" name="companyCode" id="company_code"/>
+ 	<button onClick="reloadGraph()"> Submit </button>
+ 
+ 
+ <div id="graph">
+ 	
+ </div>
+
+    <div class="mouseOverContent" style="opacity:0;"></div>
+
 </body>
 </html>
