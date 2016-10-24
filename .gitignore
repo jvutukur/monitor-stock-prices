@@ -1,13 +1,5 @@
-build/
+build/*
 .settings
 .classpath
 target/*
-
 *.docx
-target/
-/target/
-/target/
-/target/
-/target/
-/target/
-/target/
