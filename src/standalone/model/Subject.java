@@ -19,6 +19,7 @@ public class Subject  extends TimerTask {
 	private static ArrayList<Observer> queue;
 	public static Subject getSubject(){
 		if(subject==null){
+			subject = new Subject();
 			 queue = new ArrayList<Observer>();				 
 				try{
 					Connection con = mySqlConnection.getConnection();
@@ -35,9 +36,7 @@ public class Subject  extends TimerTask {
 					System.out.println(e.getMessage());
 				}							
 		}
-		else{
-			
-		}
+		
 		return subject;
 	}
 	

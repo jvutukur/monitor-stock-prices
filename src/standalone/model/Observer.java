@@ -21,7 +21,12 @@ public class Observer {
 		this.company_code = company_code;
 		this.company_name = company_name;
 	}
-				
+
+	public Observer(String company_code){
+		this.company_code = company_code;
+	}
+
+	
 	public BigDecimal getStockPrice(String companyName){
 		
 		//http://maven-repository.com/artifact/com.yahoofinance-api/YahooFinanceAPI/1.3.0
@@ -46,23 +51,23 @@ public class Observer {
 		boolean successMessage = false;
 		Connection con = mySqlConnection.getConnection();
 		BigDecimal stockValue = getStockPrice(this.company_code);
-		Timestamp timeStamp = new java.sql.Timestamp(new java.util.Date().getTime());				
-		try{
-			String query ="INSERT INTO `stocks`.`stock_values` (`company_code`, `time_stamp`, `value`) VALUES (?, ?, ?)";
-			PreparedStatement pstmt = con.prepareStatement(query);
-			pstmt.setString(1, company_code.toUpperCase());
-			pstmt.setTimestamp(2, timeStamp);
-			pstmt.setBigDecimal(3,stockValue);
-			pstmt.executeUpdate();
-			successMessage = true;
+		Timestamp timeStamp = new java.sql.Timestamp(new java.util.Date().getTime());	
+		if(!stockValue.toString().equals("0")){
+			try{
+				String query ="INSERT INTO `stocks`.`stock_values` (`company_code`, `time_stamp`, `value`) VALUES (?, ?, ?)";
+				PreparedStatement pstmt = con.prepareStatement(query);
+				pstmt.setString(1, company_code.toUpperCase());
+				pstmt.setTimestamp(2, timeStamp);
+				pstmt.setBigDecimal(3,stockValue);
+				pstmt.executeUpdate();
+				successMessage = true;
+			}
+			catch(Exception e){
+				successMessage = false;
+				System.out.println(e.getMessage());		
+			}			
 		}
-		catch(Exception e){
-			successMessage = false;
-			System.out.println(e.getMessage());		
-		}
-		finally{
-			
-		}		
+				
 		return successMessage;
 	}
 	
@@ -74,9 +79,6 @@ public class Observer {
 		this.company_name = company_name;
 	}
 
-	public Observer(String company_code){
-		this.company_code = company_code;
-	}
 	
 	public String getCompany_code() {
 		return company_code;

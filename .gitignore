@@ -2,5 +2,4 @@ build/*
 .settings
 .classpath
 target/*
-*.docx
 /target/
