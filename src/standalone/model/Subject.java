@@ -40,10 +40,16 @@ public class Subject  extends TimerTask {
 		return subject;
 	}
 	
-	//
+	/*
+	 * Registers obj to Subject
+	 */
 	public void register(Observer obj){
 		queue.add(obj);
 	};
+	
+	/*
+	 * Unregisters obj from Subject
+	 */
 	public void unregister(Observer obj){
 		int i;
 		for(i=0; i<queue.size(); i++){
@@ -54,13 +60,20 @@ public class Subject  extends TimerTask {
 		queue.remove(i);
 	};
 	
-	//method to notify observers of change
+	/*
+	 * notifies all observers
+	 */
 	public void notifyObservers(){
 		for(Observer currentObserver: queue){
 			currentObserver.addSingleStockToDB();
 		}		
 	};
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.util.TimerTask#run()
+	 * overrides Timerrun run. and is called by timer after every five minutes
+	 */
 	public void run(){
 		notifyObservers();
 	}

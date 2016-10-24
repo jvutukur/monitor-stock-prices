@@ -26,11 +26,12 @@ public class Observer {
 		this.company_code = company_code;
 	}
 
-	
-	public BigDecimal getStockPrice(String companyName){
-		
-		//http://maven-repository.com/artifact/com.yahoofinance-api/YahooFinanceAPI/1.3.0
-		//http://financequotes-api.com/
+	/*
+	 * used api -- http://maven-repository.com/artifact/com.yahoofinance-api/YahooFinanceAPI/1.3.0
+	 * reference for api - http://financequotes-api.com/
+	 * Returns current stock value of companyName which corresponds to value in yahooFinance  
+	 */
+	public BigDecimal getStockPrice(String companyName){				
 		BigDecimal price = null;
 		try{			
 			Stock stock = YahooFinance.get(companyName);
@@ -46,7 +47,10 @@ public class Observer {
 		return price;
 	}
 
-	//This method gets update from subject after every 5 minutes
+	/*
+	 * This method gets update from subject after every 5 minutes. 
+	 * Gets the current stock value for company_code and adds to database
+	 */
 	public boolean addSingleStockToDB(){			
 		boolean successMessage = false;
 		Connection con = mySqlConnection.getConnection();

@@ -21,7 +21,10 @@ import org.apache.log4j.Logger;
 public class CrudServices {
 	
 	static Logger log = Logger.getLogger(CrudServices.class);
-
+	/*
+	 * deletes the company_code corresponding record in data base and unregisters Subject.
+	 * Returns message which explains status of the request
+	 */
 	public String deleteCompany(String company_code) {
 		String message = "";
 		String companyName = getCompanyName(company_code);
@@ -35,7 +38,7 @@ public class CrudServices {
 				PreparedStatement pstmt = con.prepareStatement(query);
 				pstmt.setString(1, company_code);
 				pstmt.execute();
-				message = "Deleted company successfully";
+				message = "Deleted "+companyName+"  successfully";
 				Subject.getSubject().unregister(new Observer(company_code,companyName));
 				log.info("Deleted "+company_code+" successfully" );
 				
@@ -49,6 +52,9 @@ public class CrudServices {
 		return message;
 	}
 	
+	/*
+	 * Returns full company name corresponding to company_code
+	 */
 	public String getCompanyName(String company_code){
 		String companyName = "";
 		try{
@@ -61,6 +67,9 @@ public class CrudServices {
 		return companyName;
 	}
 
+	/*
+	 *Adds company corresponding to company_code to data base and registers to subject 
+	 */
 	public String addCompany(String company_code) {
 		String message = "";
 		String companyName = getCompanyName(company_code);
@@ -96,6 +105,9 @@ public class CrudServices {
 		return message;
 	}
 
+	/*
+	 * Returns list of companies in database
+	 */
 	public List<Company> getComaniesList() {		
 		ArrayList<Company> companiesList = new ArrayList<Company>();
 		try{
@@ -120,7 +132,9 @@ public class CrudServices {
 	}
 	
 	
-
+	/*
+	 * Returns list of previous stock values for the given specific company_code
+	 */
 	public StockHistory getComanyHistorty(String company_code) {
 		StockHistory sh = null;
 		try {
