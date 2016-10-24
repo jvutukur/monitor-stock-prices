@@ -47,7 +47,7 @@ public class CrudController {
 	 public Response companyHistory(@PathParam("company_code") String company_code){		  
 		  StockHistory stockHistory= crudServices.getComanyHistorty(company_code);
 		 Response response = null;
-		 if(stockHistory!=null){
+		 if(stockHistory.getStockHistory().size() > 0){
 			 response = Response.status(Response.Status.OK).entity(stockHistory).build();
 		 }
 		 else{
