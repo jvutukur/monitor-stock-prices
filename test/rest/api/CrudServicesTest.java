@@ -10,6 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import dao.Company;
+import dao.StockHistory;
 import dao.StockValue;
 import standalone.model.FetchLatestStockPrices;
 
@@ -47,15 +48,15 @@ public class CrudServicesTest {
 	}
 
 	@Test
-	public void testGetComanyHistorty_fail1() {
-		List<StockValue> stocksList = cs.getComanyHistorty("hahaha");
-		Assert.assertEquals(true,(stocksList.size()==0));
+	public void testGetCompanyHistorty_fail1() {
+		StockHistory stockHistory = cs.getComanyHistorty("hahaha");
+		Assert.assertEquals(true,(stockHistory.getCompany_fullName().equals("")));
 	}
 	
 	@Test
-	public void testGetComanyHistorty() {
-		List<StockValue> stocksList = cs.getComanyHistorty("INTL");
-		Assert.assertEquals(true,(stocksList.size()>0));
+	public void testGetCompanyHistorty() {
+		StockHistory stockHistory = cs.getComanyHistorty("INTL");
+		Assert.assertEquals(true,(stockHistory!=null));
 	}
 
 }

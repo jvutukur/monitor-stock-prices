@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 import dao.Company;
+import dao.StockHistory;
 import dao.StockValue;
 import standalone.model.FetchLatestStockPrices;
 import standalone.model.mySqlConnection;
@@ -88,9 +89,10 @@ public class CrudServices {
 	
 	
 
-	public ArrayList<StockValue> getComanyHistorty(String company_code) {
-		ArrayList<StockValue> stocksHistory = new ArrayList<StockValue>();
+	public StockHistory getComanyHistorty(String company_code) {
+		StockHistory sh = null;
 		try {
+			ArrayList<StockValue> stocksHistory = new ArrayList<StockValue>();
 			Connection con = mySqlConnection.getConnection();
 			String query = "SELECT `time_stamp`, `value` FROM `stocks`.`stock_values`"
 					+ "where `company_code` =?";
@@ -104,7 +106,19 @@ public class CrudServices {
 				stocksHistory.add(oneValue);
 			}
 			Collections.sort(stocksHistory);
-			log.info(company_code+" stocks history sent to user successfully");
+			
+			pstmt.close();
+			query = "SELECT `company_name` from `stocks`.`companies` where `company_code`=?";
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1,company_code.toUpperCase());
+			ResultSet rs1 = pstmt.executeQuery();
+			String companyFullName = "";
+			if(rs1.next()){
+				companyFullName = rs1.getString("company_name");
+			}
+			
+			sh = new StockHistory(company_code,companyFullName,stocksHistory);
+ 			log.info(company_code+" stocks history requested by user");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			log.error(e.getMessage());
@@ -112,7 +126,7 @@ public class CrudServices {
 
 		}
 
-		return stocksHistory;
+		return sh;
 
 	}
 

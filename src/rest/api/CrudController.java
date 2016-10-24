@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response;
 
 import dao.Company;
 import dao.CompanyCodes;
+import dao.StockHistory;
 import dao.StockValue;
 
 @Path("/yahoostocks")
@@ -43,11 +44,10 @@ public class CrudController {
 	 @GET
 	 @Path("/company_history/{company_code}")
 	 @Produces(MediaType.APPLICATION_JSON)
-	 public Response companyHistory(@PathParam("company_code") String company_code){
-		 ArrayList<StockValue> stockHistory = new ArrayList<StockValue>();
-		 stockHistory= crudServices.getComanyHistorty(company_code);
+	 public Response companyHistory(@PathParam("company_code") String company_code){		  
+		  StockHistory stockHistory= crudServices.getComanyHistorty(company_code);
 		 Response response = null;
-		 if(stockHistory.size()>0){
+		 if(stockHistory!=null){
 			 response = Response.status(Response.Status.OK).entity(stockHistory).build();
 		 }
 		 else{

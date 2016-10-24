@@ -2,10 +2,11 @@
 //http://bl.ocks.org/mbostock/3883195
 var companyName;
 var companyHistory;
-
+var companyFullName;
 var reloadGraph = function(){
 	
 	companyName = $("#company_code").val();
+	companyHistory = undefined;	
 	var urlFromData = "http://localhost:8082/MonitorStockPrice/rest/yahoostocks/company_history/"+companyName;
 
 
@@ -14,20 +15,29 @@ var reloadGraph = function(){
 		type: "GET",
 		dataType: 'JSON',
 		success: function (data) {
-			companyHistory = JSON.parse(data);
+			parsedData = JSON.parse(data)
+			companyHistory = parsedData.stockHistory;
+			companyFullName = parsedData.company_fullName;
 		},
 		async: false
 	});
 	
 	
-	if(companyHistory.length > 0){
-		$("#graph").html("");
+	    
+	    
+	
+	
+	
+	
+	if(companyHistory){
 		
+		$("#graph").html("");		
+		$("#graph").append("<u><h4 style='text-align:center;margin-top:50px'>"+ companyFullName +" Stocks History </h4></u>");
 	    var margin = {top: 20, right: 20, bottom: 30, left: 50},
-	    width = 960 - margin.left - margin.right,
-	    height = 500 - margin.top - margin.bottom;
+	    width = 950 - margin.left - margin.right,
+	    height = 300 - margin.top - margin.bottom;
 	    		
-		var svg = d3.select("body").append("svg")
+		var svg = d3.select("#graph").append("svg")
 	    .attr("width", width + margin.left + margin.right)
 	    .attr("height", height + margin.top + margin.bottom)
 	    .append("g")
@@ -134,7 +144,7 @@ var reloadGraph = function(){
                     .style("opacity", .9);
                 div .html("<b>Stock Price: " + d.stockPrice + "<br>" + "Time: " + d.time + "<br>")
                     .style("left", (d3.event.pageX) + "px")
-                    .style("top", (40) + "px")
+                    .style("top", (200) + "px")
                     .style("color","black");
             })
             .on("mouseout", function (d) {
@@ -145,8 +155,9 @@ var reloadGraph = function(){
 							
 	}
 	else{
-		alert("invalid company name");
+		alert("invalid company name or company does not exist in database");
 	}
+	
 	
 } 
 
