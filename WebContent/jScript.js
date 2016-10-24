@@ -29,7 +29,7 @@ var reloadGraph = function(){
 	
 	
 	
-	if(companyHistory){
+	if(companyHistory.length !=0){
 		
 		$("#graph").html("");		
 		$("#graph").append("<u><h4 style='text-align:center;margin-top:50px'>"+ companyFullName +" Stocks History </h4></u>");
@@ -86,7 +86,7 @@ var reloadGraph = function(){
 		
 		var y = d3.scale.linear()
 				.rangeRound([0,height])
-				.domain([maxValue+50, minValue-50	 ]);
+				.domain([maxValue+0.5, minValue-0.5]);
 	
 		var xAxis = d3.svg.axis()
 	    .scale(x)
@@ -138,13 +138,16 @@ var reloadGraph = function(){
 			.attr("r",function(d){
 				return 3;
 			})
+			.style("stroke", "black")
+			.style("fill", "white")
+			.style("fill-opacity","0.01")
 			.on("mouseover", function (d) {
                 div.transition()
                     .duration(200)
                     .style("opacity", .9);
-                div .html("<b>Stock Price: " + d.stockPrice + "<br>" + "Time: " + d.time + "<br>")
-                    .style("left", (d3.event.pageX) + "px")
-                    .style("top", (200) + "px")
+                div .html("<b><h5>Stock Price: " + d.stockPrice + "<br>" + "Time: " + d.time + "<br></h5 </b>")
+                    .style("left", (d3.event.pageX - 100) + "px")
+                    .style("top", (d3.event.pageY - 75) + "px")
                     .style("color","black");
             })
             .on("mouseout", function (d) {
