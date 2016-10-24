@@ -3,3 +3,4 @@ build/*
 .classpath
 target/*
 *.docx
+/target/

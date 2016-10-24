@@ -6,7 +6,8 @@ public class AddStockValuesJob {
 	
 	public void startStockUpdateJob(){
 		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(new FetchLatestStockPrices(), 0L, (300*1000L));		
+		Subject subject = Subject.getSubject();
+		timer.scheduleAtFixedRate(subject, 0L, (300*1000L));		
 	}
 
 }
