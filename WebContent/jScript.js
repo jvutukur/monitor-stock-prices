@@ -7,7 +7,7 @@ var reloadGraph = function(){
 	
 	companyName = $("#company_code").val();
 	companyHistory = undefined;	
-	var urlFromData = "http://localhost:8082/MonitorStockPrice/rest/yahoostocks/company_history/"+companyName;
+	var urlFromData = "http://localhost:8080/MonitorStockPrice/rest/yahoostocks/company_history/"+companyName;
 
 
 	$.ajax({

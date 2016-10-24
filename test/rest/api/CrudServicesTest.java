@@ -12,7 +12,7 @@ import org.junit.Test;
 import dao.Company;
 import dao.StockHistory;
 import dao.StockValue;
-import standalone.model.FetchLatestStockPrices;
+
 
 public class CrudServicesTest {
 
@@ -58,5 +58,24 @@ public class CrudServicesTest {
 		StockHistory stockHistory = cs.getComanyHistorty("INTL");
 		Assert.assertEquals(true,(stockHistory!=null));
 	}
+	
+	@Test
+	public void testDelelteCompany(){
+		String message = cs.deleteCompany("hahaha");
+		Assert.assertEquals("No such company exist", message);
+	}
+	
+	@Test
+	public void testGetCompanyNameSuccessScenario(){
+		String companyName = cs.getCompanyName("INTL");
+		Assert.assertEquals( "INTL FCStone Inc.",companyName);
+	}
+	
+	@Test
+	public void testGetCompanyNameFailScenario(){
+		String companyName = cs.getCompanyName("hahaha");
+		Assert.assertEquals("N/A",companyName);
+	}
+	
 
 }

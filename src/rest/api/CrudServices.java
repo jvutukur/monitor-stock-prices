@@ -10,8 +10,11 @@ import java.util.List;
 import dao.Company;
 import dao.StockHistory;
 import dao.StockValue;
-import standalone.model.FetchLatestStockPrices;
+import standalone.model.Observer;
+import standalone.model.Subject;
 import standalone.model.mySqlConnection;
+import yahoofinance.Stock;
+import yahoofinance.YahooFinance;
 
 import org.apache.log4j.Logger;
 
@@ -21,8 +24,7 @@ public class CrudServices {
 
 	public String deleteCompany(String company_code) {
 		String message = "";
-		String companyName = new FetchLatestStockPrices()
-				.getCompanyName(company_code);
+		String companyName = getCompanyName(company_code);
 		if (companyName.equals("") || companyName.equals("N/A")) {
 			message = "No such company exist";
 			log.warn(" User requested for "+company_code+" to delete. But no such company exist" );
@@ -34,7 +36,9 @@ public class CrudServices {
 				pstmt.setString(1, company_code);
 				pstmt.execute();
 				message = "Deleted company successfully";
+				Subject.getSubject().unregister(new Observer(company_code,companyName));
 				log.info("Deleted "+company_code+" successfully" );
+				
 			} catch (Exception e) {
 				message = "Internal Server Error";				
 				System.out.println(e.getMessage());
@@ -44,11 +48,22 @@ public class CrudServices {
 		}
 		return message;
 	}
+	
+	public String getCompanyName(String company_code){
+		String companyName = "";
+		try{
+			Stock stock = YahooFinance.get(company_code);
+			companyName = stock.getName();
+		}
+		catch(Exception e){
+			System.out.println(e.getMessage());
+		}		
+		return companyName;
+	}
 
 	public String addCompany(String company_code) {
 		String message = "";
-		String companyName = new FetchLatestStockPrices()
-				.getCompanyName(company_code);
+		String companyName = getCompanyName(company_code);
 		if (companyName.equals("") || companyName.equals("N/A")) {
 			message = "No such company exist";
 			log.warn(" User requested for "+company_code+" to Add. But no such company exist" );
@@ -69,6 +84,7 @@ public class CrudServices {
 					pstmt.setString(1, company_code.toUpperCase());
 					pstmt.setString(2, companyName);
 					pstmt.executeUpdate();
+					Subject.getSubject().register(new Observer(company_code,null));
 					message = companyName + " is successfully regiseterd";
 					log.info(company_code+" is successfully added to database");
 				}
@@ -80,11 +96,27 @@ public class CrudServices {
 		return message;
 	}
 
-	public List<Company> getComaniesList() {
-		FetchLatestStockPrices flsp = new FetchLatestStockPrices();
-		ArrayList<Company> companyList = flsp.getCompaniesList();
+	public List<Company> getComaniesList() {		
+		ArrayList<Company> companiesList = new ArrayList<Company>();
+		try{
+			Connection con = mySqlConnection.getConnection();
+			String query = "Select * from stocks.companies";
+			PreparedStatement pstmt = con.prepareStatement(query);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()){
+				String company_code = rs.getString("company_code");
+				String company_name = rs.getString("company_name");
+				companiesList.add(new Company(company_code,company_name));				
+			}			
+		}
+		catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+		finally{
+			
+		}					
 		log.info("user requested for list of comapanies in DB");
-		return companyList;
+		return companiesList;
 	}
 	
 	
