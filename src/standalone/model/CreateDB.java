@@ -3,8 +3,14 @@ package standalone.model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+import org.apache.log4j.Logger;
+
+import rest.api.CrudServices;
+
 
 public class CreateDB {
+	
+	static Logger log = Logger.getLogger(CrudServices.class);
 	/*
 	 * 
 	 * CREATE SCHEMA `stocks` ;
@@ -18,7 +24,7 @@ public class CreateDB {
 			String schema = "CREATE DATABASE IF NOT exists stocks";
 			PreparedStatement preparedStatement = con.prepareStatement(schema);
 			preparedStatement.execute();
-			System.out.println("data base schema created");
+			log.info("data base schema created");			
 			
 			String companiesTable = "CREATE TABLE  IF NOT exists `stocks`.`companies` (`company_code` VARCHAR(15) NOT NULL,`company_name` VARCHAR(100) NOT NULL,PRIMARY KEY (`company_code`));";
 			preparedStatement = con
@@ -31,15 +37,13 @@ public class CreateDB {
 			preparedStatement = con.prepareStatement(stocksTable);
 			preparedStatement.execute();
 			
-			System.out.println("data base tables created");
-			
+			log.info("data base tables created");
 			String dummyData ="INSERT INTO `stocks`.`companies` (`company_code`, `company_name`) SELECT * FROM (SELECT 'INTL', 'INTL FCStone Inc.') AS tmp where NOT EXISTS( SELECT `company_code` from `stocks`.`companies` WHERE `company_code`='INTL') LIMIT 1;"; 
 										
 			preparedStatement = con.prepareStatement(dummyData);
 			preparedStatement.executeUpdate();
-			
-			System.out.println("added dummy data to DB");
-					
+						
+			log.info("added dummy data to DB");		
 					/*
 					 * INTL FCStone Inc., INTL
 					 *  ,TSLA
@@ -48,8 +52,8 @@ public class CreateDB {
 					 *  TWTR, Twitter, Inc. Common Stock
 					 */
 			success = true;
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+		} catch (Exception e) {			
+			log.error(e.getMessage());
 		}
 
 		return success;

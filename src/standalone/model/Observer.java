@@ -7,12 +7,17 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
+import rest.api.CrudServices;
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 import dao.Company;
 
 
 public class Observer {
+	
+	static Logger log = Logger.getLogger(CrudServices.class);
 	
 	private String company_code;
 	private String company_name;
@@ -36,10 +41,10 @@ public class Observer {
 		try{			
 			Stock stock = YahooFinance.get(companyName);
 			price = stock.getQuote(true).getPrice();						
-			System.out.println(stock.getName()+" : "+price.toPlainString());			
+			log.info(stock.getName()+" : "+price.toPlainString());			
 		}
 		catch(Exception e){
-		  	System.out.println(e.getMessage());			
+			log.error(e.getMessage());		  		
 		}
 		finally{
 				
@@ -68,7 +73,7 @@ public class Observer {
 			}
 			catch(Exception e){
 				successMessage = false;
-				System.out.println(e.getMessage());		
+				log.error(e.getMessage());						
 			}			
 		}
 				
@@ -91,6 +96,4 @@ public class Observer {
 	public void setCompany_code(String company_code) {
 		this.company_code = company_code;
 	}
-
-
 }

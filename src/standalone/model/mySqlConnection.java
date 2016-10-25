@@ -3,9 +3,14 @@ package standalone.model;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+import org.apache.log4j.Logger;
+
+import rest.api.CrudServices;
+
 public class mySqlConnection {
 
 	private static Connection conn = null;
+	static Logger log = Logger.getLogger(CrudServices.class);
 	
 	protected mySqlConnection(){
 		
@@ -20,7 +25,7 @@ public class mySqlConnection {
 			} 
 			
 			catch (Exception e) {
-				System.out.println(e.getMessage());
+				log.error(e.getMessage() );				
 			}	
 		}
 		else{

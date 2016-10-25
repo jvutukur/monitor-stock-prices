@@ -4,16 +4,20 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.ServletContext;
+
 import java.io.File;
+
+import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
+import rest.api.CrudServices;
 import standalone.model.AddStockValuesJob;
 import standalone.model.CreateDB;
 
 
 @WebListener
 public class startup implements ServletContextListener{
-
+		
 	@Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         System.out.println("Starting up!");
