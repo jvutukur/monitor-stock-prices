@@ -43,7 +43,7 @@ public class CrudServices {
 				log.info("Deleted "+company_code+" successfully" );
 				
 			} catch (Exception e) {
-				message = "Internal Server Error";				
+				message = "Company not found in data base";				
 				System.out.println(e.getMessage());
 				log.error(e.getMessage());
 			}

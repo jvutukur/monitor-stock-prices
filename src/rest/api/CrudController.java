@@ -87,7 +87,7 @@ public class CrudController {
 			 response = Response.status(Response.Status.OK).entity(message).build();
 		 }
 		 else{
-			 response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(message).build();
+			 response = Response.status(Response.Status.NOT_FOUND).entity(message).build();
 		 }
 		 
 		 return response;
